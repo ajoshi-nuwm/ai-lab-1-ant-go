@@ -7,6 +7,12 @@ import (
 
 func main() {
 	region := model.Region{}
-	region.AddCities("1 2 3")
+	citiesData := "1 2 3"
+	neighboursData := []string {
+		"1 2 45 1",
+		"1 3 52 1",
+		"2 3 32 1",
+	}
+	region.AddCities(citiesData, neighboursData)
 	fmt.Println(region)
 }
