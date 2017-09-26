@@ -3,7 +3,6 @@ package worker
 import (
 	"github.com/ajoshi-nuwm/ai-lab-1-ant-go/model"
 	"math/rand"
-	"fmt"
 )
 
 const (
@@ -75,8 +74,6 @@ func (ant *Ant) getVisitCity() *model.City {
 			return segment.city
 		}
 	}
-	fmt.Printf("random = %v\n", random)
-	fmt.Printf("segments = %v\n", segments)
 	return nil
 }
 

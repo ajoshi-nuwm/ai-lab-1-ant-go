@@ -2,8 +2,8 @@ package model
 
 import (
 	"strings"
-	"fmt"
 	"math/rand"
+	"log"
 )
 
 type Region struct {
@@ -33,7 +33,7 @@ func (region *Region) SearchCity(cityName string) *City {
 			return city
 		}
 	}
-	fmt.Errorf("cannot find city with name = %v", cityName)
+	log.Fatalf("cannot find city with name = %v", cityName)
 	return nil
 }
 
