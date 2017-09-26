@@ -3,6 +3,7 @@ package model
 import (
 	"strings"
 	"fmt"
+	"math/rand"
 )
 
 type Region struct {
@@ -34,6 +35,10 @@ func (region *Region) SearchCity(cityName string) *City {
 	}
 	fmt.Errorf("cannot find city with name = %v", cityName)
 	return nil
+}
+
+func (region *Region) GetRandomCity() *City {
+	return region.cities[rand.Intn(len(region.cities))]
 }
 
 func (region Region) String() string {

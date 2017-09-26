@@ -32,6 +32,14 @@ func NewAnt(initialCity *model.City) *Ant {
 	return &ant
 }
 
+func (ant *Ant) GetVisitedCities() []string {
+	cities := []string{}
+	for _, city := range ant.visited {
+		cities = append(cities, city.Name)
+	}
+	return cities
+}
+
 func (ant *Ant) VisitCity() bool {
 	visitCity := ant.getVisitCity()
 	if visitCity == nil {
@@ -61,14 +69,14 @@ func (ant *Ant) getVisitCity() *model.City {
 		segments = append(segments, Segment{city, start, start + probability})
 		start += probability
 	}
-	random := rand.Float64()
+	random := rand.Float64() * start
 	for _, segment := range segments {
 		if segment.isInSegment(random) {
 			return segment.city
 		}
 	}
-	fmt.Printf("random = %v", random)
-	fmt.Printf("segments = %v", segments)
+	fmt.Printf("random = %v\n", random)
+	fmt.Printf("segments = %v\n", segments)
 	return nil
 }
 
@@ -100,10 +108,10 @@ func (ant *Ant) spreadFerment() {
 	for i := 0; i < len(ant.visited)-1; i++ {
 		currentCity := ant.visited[i]
 		nextCity := ant.visited[i+1]
-		oldFerment := (&currentCity.Neighbours()[nextCity]).Ferment
+		oldFerment := (currentCity.Neighbours()[nextCity]).Ferment
 
-		(&currentCity.Neighbours()[nextCity]).Ferment = oldFerment*forgetCoefficient + delta
-		(&nextCity.Neighbours()[currentCity]).Ferment = oldFerment*forgetCoefficient + delta
+		(currentCity.Neighbours()[nextCity]).Ferment = oldFerment*forgetCoefficient + delta
+		(nextCity.Neighbours()[currentCity]).Ferment = oldFerment*forgetCoefficient + delta
 	}
 }
 

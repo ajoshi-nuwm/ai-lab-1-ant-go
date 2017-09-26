@@ -8,7 +8,7 @@ import (
 
 type City struct {
 	Name       string
-	neighbours map[*City]NeighbourData
+	neighbours map[*City]*NeighbourData
 }
 
 // struct for neighbour data
@@ -17,20 +17,20 @@ type NeighbourData struct {
 }
 
 // getter for neighbours
-func (city *City) Neighbours() map[*City]NeighbourData {
+func (city *City) Neighbours() map[*City]*NeighbourData {
 	return city.neighbours
 }
 
 // add city with distance and ferment values
 func (city *City) AddNeighbourData(neighbour *City, distance, ferment float64) {
 	if city.neighbours == nil {
-		city.neighbours = make(map[*City]NeighbourData)
+		city.neighbours = make(map[*City]*NeighbourData)
 	}
 	if neighbour.neighbours == nil {
-		neighbour.neighbours = make(map[*City]NeighbourData)
+		neighbour.neighbours = make(map[*City]*NeighbourData)
 	}
-	city.neighbours[neighbour] = NeighbourData{distance, ferment}
-	neighbour.neighbours[city] = NeighbourData{distance, ferment}
+	city.neighbours[neighbour] = &NeighbourData{distance, ferment}
+	neighbour.neighbours[city] = &NeighbourData{distance, ferment}
 }
 
 func (city *City) AddNeighbourDataString(neighbour *City, distance, ferment string) {
