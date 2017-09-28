@@ -1,3 +1,6 @@
+/*
+Package util contains file utils for interacting with file system
+ */
 package util
 
 import (
@@ -5,6 +8,7 @@ import (
 	"os"
 )
 
+// Returns array of rows from file ot error in case of exception
 func ReadFromFile(filename string) ([]string, error) {
 	read := []string{}
 	file, err := os.Open(filename)

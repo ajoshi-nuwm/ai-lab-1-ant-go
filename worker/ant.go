@@ -1,3 +1,10 @@
+/*
+Package worker represents implementation of ant, which is worker for the algorithm
+
+Ant has constructor to use in most of cases which accepts pointer to city from which ant starts
+
+Utility struct Segment used to represent probability rule to get random city to visit
+ */
 package worker
 
 import (
@@ -14,23 +21,26 @@ type Ant struct {
 	visited []*model.City
 }
 
-// segment of probability ruler
+// Segment of probability ruler
 type Segment struct {
 	city  *model.City
 	start float64
 	end   float64
 }
 
+// Checks if number is in segment
 func (segment *Segment) isInSegment(value float64) bool {
 	return value >= segment.start && value <= segment.end
 }
 
+// Constructor
 func NewAnt(initialCity *model.City) *Ant {
 	ant := Ant{}
 	ant.visited = append(ant.visited, initialCity)
 	return &ant
 }
 
+// Returns visited cities
 func (ant *Ant) GetVisitedCities() []string {
 	cities := []string{}
 	for _, city := range ant.visited {
@@ -39,6 +49,7 @@ func (ant *Ant) GetVisitedCities() []string {
 	return cities
 }
 
+// Visits city and returns true if succeeded, returns false if no available city to visit - end of algorithm
 func (ant *Ant) VisitCity() bool {
 	visitCity := ant.getVisitCity()
 	if visitCity == nil {
@@ -49,7 +60,7 @@ func (ant *Ant) VisitCity() bool {
 	return true
 }
 
-// get distance passed by ant
+// Get distance passed by ant
 func (ant *Ant) GetPassedDistance() float64 {
 	var distance float64
 	for i := 0; i < len(ant.visited)-1; i++ {
@@ -60,6 +71,7 @@ func (ant *Ant) GetPassedDistance() float64 {
 	return distance
 }
 
+// Returns next city to visit
 func (ant *Ant) getVisitCity() *model.City {
 	segments := []Segment{}
 	var start float64
@@ -77,6 +89,7 @@ func (ant *Ant) getVisitCity() *model.City {
 	return nil
 }
 
+// Returns all cities from current one to visit except black list - list of visited ones
 func (ant *Ant) getAvailableCities() []*model.City {
 	currentCity := ant.visited[len(ant.visited)-1]
 	availableCities := []*model.City{}
@@ -88,6 +101,7 @@ func (ant *Ant) getAvailableCities() []*model.City {
 	return availableCities
 }
 
+// Returns probability to visit given city from current one
 func (ant *Ant) calculateCityTransitionProbability(city *model.City) float64 {
 	currentCity := ant.visited[len(ant.visited)-1]
 	var sum float64
@@ -99,6 +113,7 @@ func (ant *Ant) calculateCityTransitionProbability(city *model.City) float64 {
 	return candidateValue / sum
 }
 
+// Post-step action - spreading ferment through all visited roads
 func (ant *Ant) spreadFerment() {
 	distance := ant.GetPassedDistance()
 	delta := tripWeight / distance
@@ -112,6 +127,7 @@ func (ant *Ant) spreadFerment() {
 	}
 }
 
+// Checks if city contains in slice
 func cityContains(cities [] *model.City, city *model.City) bool {
 	for _, c := range cities {
 		if c == city {

@@ -1,3 +1,8 @@
+/*
+Package model represents domain model of ant-algorithm problem
+City model represents node of a graph with neighbour data in it
+Region model represents array of cities and utility methods to interact with
+ */
 package model
 
 import (
@@ -14,6 +19,7 @@ func (region *Region) Cities() []*City {
 	return region.cities
 }
 
+// Add cities to region from string representation
 func (region *Region) AddCities(citiesData string, neighboursData []string) {
 	citiesDataSplitted := strings.Split(citiesData, " ")
 	region.cities = make([]*City, len(citiesDataSplitted))
@@ -27,6 +33,7 @@ func (region *Region) AddCities(citiesData string, neighboursData []string) {
 	}
 }
 
+// Search for city by cityName
 func (region *Region) SearchCity(cityName string) *City {
 	for _, city := range region.cities {
 		if city.Name == cityName {
@@ -37,10 +44,12 @@ func (region *Region) SearchCity(cityName string) *City {
 	return nil
 }
 
+// Get random city to start with
 func (region *Region) GetRandomCity() *City {
 	return region.cities[rand.Intn(len(region.cities))]
 }
 
+// String representation
 func (region Region) String() string {
 	citiesNames := make([]string, len(region.cities))
 	for i, city := range region.cities {
